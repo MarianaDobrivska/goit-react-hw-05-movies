@@ -5,15 +5,23 @@ import {
   TextComposition,
   Title,
 } from 'components/TextComposition/TextComposition';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const ReviewsPage = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    getMovieReviews(movieId).then(({ data }) => {
-      setReviews(data.results);
-    });
+    getMovieReviews(movieId)
+      .then(({ data }) => {
+        setReviews(data.results);
+      })
+      .catch(error => {
+        toast.error('Sorry, something went wrong. Please try again.', {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      });
   }, [movieId]);
 
   return (
@@ -32,6 +40,7 @@ export const ReviewsPage = () => {
       ) : (
         <Title title="We don't have any reviews for this movie" />
       )}
+      <ToastContainer />
     </>
   );
 };

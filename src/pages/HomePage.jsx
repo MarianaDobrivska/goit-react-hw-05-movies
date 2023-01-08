@@ -2,6 +2,7 @@ import { MoviesGallery } from 'components/MoviesGallery/MoviesGallery';
 import { Pagination } from 'components/Pagination/Pagination';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { HeadingTitle } from 'components/TextComposition/TextComposition';
 
 export const HomePage = () => {
   const [totalPages, setTotalPages] = useState(0);
@@ -12,7 +13,7 @@ export const HomePage = () => {
   };
   return (
     <div>
-      <h2>Trending today</h2>
+      <HeadingTitle title="Trending today" />
       <MoviesGallery setTotalPages={setTotalPages} search={search} />
       <Pagination handlePageClick={handlePageClick} pages={totalPages} />
     </div>

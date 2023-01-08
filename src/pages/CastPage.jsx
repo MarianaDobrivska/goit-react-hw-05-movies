@@ -7,14 +7,22 @@ import {
   Title,
 } from 'components/TextComposition/TextComposition';
 import { Picture } from 'components/Picture/Picture';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const CastPage = () => {
   const { movieId } = useParams();
   const [castInfo, setCastInfo] = useState([]);
   useEffect(() => {
-    getMovieCredits(movieId).then(({ data }) => {
-      setCastInfo(data.cast);
-    });
+    getMovieCredits(movieId)
+      .then(({ data }) => {
+        setCastInfo(data.cast);
+      })
+      .catch(error => {
+        toast.error('Sorry, something went wrong. Please try again.', {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      });
   }, [movieId]);
 
   return (
@@ -47,6 +55,7 @@ export const CastPage = () => {
       ) : (
         <Title title="Cast is temporarily unavailable." />
       )}
+      <ToastContainer />
     </>
   );
 };
