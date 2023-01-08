@@ -26,11 +26,11 @@ export const CastPage = () => {
   }, [movieId]);
 
   return (
-    <>
+    <div>
       {castInfo.length > 0 ? (
-        <ul>
-          {castInfo.slice(0, 20).map(el => (
-            <li key={el.id}>
+        <ul style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+          {castInfo.slice(0, 30).map(el => (
+            <li key={el.id} style={{ width: '150px' }}>
               {el.profile_path ? (
                 <Picture
                   path={el.profile_path}
@@ -42,6 +42,7 @@ export const CastPage = () => {
                   placeholder={placeholder}
                   width={150}
                   alt="default image"
+                  height="225"
                 />
               )}
 
@@ -56,6 +57,6 @@ export const CastPage = () => {
         <Title title="Cast is temporarily unavailable." />
       )}
       <ToastContainer />
-    </>
+    </div>
   );
 };

@@ -1,4 +1,6 @@
 import ReactPaginate from 'react-paginate';
+import PropTypes from 'prop-types';
+import './Pagination.css';
 
 export const Pagination = ({ handlePageClick, pages }) => {
   return (
@@ -23,4 +25,9 @@ export const Pagination = ({ handlePageClick, pages }) => {
       renderOnZeroPageCount={null}
     />
   );
+};
+
+Pagination.propTypes = {
+  handlePageClick: PropTypes.func.isRequired,
+  pages: PropTypes.number.isRequired,
 };

@@ -1,0 +1,18 @@
+.galleryItemWrapper:not(:last-of-type) {
+  margin-bottom: 5px;
+  padding: 2px;
+}
+
+.linkWrapper {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  text-decoration: underline rgb(160, 160, 160);
+  color: rgb(49, 49, 51);
+  transition: all 300ms linear;
+}
+
+.linkWrapper:hover {
+  text-decoration: underline rgb(69, 79, 224);
+  color: rgb(4, 4, 120);
+}

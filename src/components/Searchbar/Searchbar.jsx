@@ -1,4 +1,7 @@
 import { Formik, Field, Form } from 'formik';
+import { FcSearch } from 'react-icons/fc';
+import PropTypes from 'prop-types';
+import s from './Searchbar.module.css';
 
 export const Searchbar = ({ onSubmit }) => {
   return (
@@ -10,16 +13,24 @@ export const Searchbar = ({ onSubmit }) => {
           resetForm();
         }}
       >
-        <Form>
+        <Form className={s.form}>
           <Field
+            as="input"
+            className={s.input}
             autoComplete="off"
-            autoFocus
             placeholder="Search movie"
             name="query"
+            autoFocus
           />
-          <button type="submit">Search</button>
+          <button type="submit" className={s.button}>
+            {<FcSearch />}
+          </button>
         </Form>
       </Formik>
     </>
   );
+};
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };

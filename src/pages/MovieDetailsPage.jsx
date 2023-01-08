@@ -1,4 +1,5 @@
-import { useParams, NavLink, Outlet } from 'react-router-dom';
+import { useParams, Outlet, useLocation, NavLink } from 'react-router-dom';
+import { useEffect, useState, Suspense } from 'react';
 import { getMovieID } from 'API/Themovied';
 import {
   TextComposition,
@@ -6,14 +7,18 @@ import {
   Title,
 } from 'components/TextComposition/TextComposition';
 import { Picture } from 'components/Picture/Picture';
+import { UserScore } from 'components/UserScore';
+import { AdditionalInfoNavigation } from 'components/Navigation/MovieInfoNavigation';
 import placeholder from '../data/No-Image-Placeholder.png';
-import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
+import s from '../components/Navigation/Navigation.module.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const MovieDetailsPage = () => {
   const [movieInfo, setMovieinfo] = useState(null);
   const { movieId } = useParams();
+  const location = useLocation();
 
   useEffect(() => {
     getMovieID(movieId)
@@ -28,11 +33,24 @@ export const MovieDetailsPage = () => {
   }, [movieId]);
 
   return (
-    <div>
-      <button type="button">Go back</button>
+    <div style={{ marginTop: '85px' }}>
+      <NavLink
+        to={location?.state?.from}
+        className={s.navigationLink}
+        style={{
+          width: '100px',
+          fontSize: '12px',
+          marginBottom: '15px',
+          scale: '1',
+          alignItems: 'center',
+          gap: '10px',
+        }}
+      >
+        <BsFillArrowLeftCircleFill /> Go back
+      </NavLink>
       {movieInfo && (
         <>
-          <div>
+          <div style={{ display: 'flex', gap: '20px' }}>
             {movieInfo.poster_path ? (
               <Picture
                 path={movieInfo.poster_path}
@@ -47,15 +65,17 @@ export const MovieDetailsPage = () => {
               />
             )}
 
-            <div>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+            >
               <HeadingTitle
                 title={`${
                   movieInfo.original_title
                 } (${movieInfo.release_date.slice(0, 4)})`}
               />
-              <TextComposition
-                title="User score:"
-                text={movieInfo.vote_average.toFixed(2)}
+              <UserScore
+                title="User score: "
+                score={movieInfo.vote_average.toFixed(2)}
               />
               <TextComposition title="Overview" text={movieInfo.overview} />
               <TextComposition
@@ -65,23 +85,16 @@ export const MovieDetailsPage = () => {
             </div>
           </div>
 
-          <div>
+          <div style={{ marginTop: '30px' }}>
             <Title title="Additional information" />
-            <ul>
-              <li>
-                <NavLink to="cast">Cast</NavLink>
-              </li>
-              <li>
-                <NavLink to="reviews">Reviews</NavLink>
-              </li>
-            </ul>
-            <Outlet />
+            <AdditionalInfoNavigation state={{ from: location.state.from }} />
           </div>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Outlet />
+          </Suspense>
         </>
       )}
       <ToastContainer />
     </div>
   );
 };
-
-/* <p>User score: {movieInfo.vote_average.toFixed(2)}</p> */

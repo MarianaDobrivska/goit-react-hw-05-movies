@@ -27,7 +27,7 @@ export const ReviewsPage = () => {
   return (
     <>
       {reviews.length > 0 ? (
-        <ul>
+        <ul style={{ display: 'inline-flex', flexWrap: 'wrap', gap: '20px' }}>
           {reviews.map(review => (
             <li key={review.id}>
               <TextComposition

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { MoviesGalleryItem } from 'components/MoviesGalleryItem/MoviesGalleryItem';
 import { Pagination } from 'components/Pagination/Pagination';
 import { Searchbar } from 'components/Searchbar/Searchbar';
@@ -11,7 +11,7 @@ export const SearchMoviePage = () => {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useSearchParams({ page: 1, query: '' });
   const [totalPages, setTotalPages] = useState(0);
-
+  const location = useLocation();
   const page = Number(search.get('page'));
   const query = search.get('query');
 
@@ -49,7 +49,7 @@ export const SearchMoviePage = () => {
 
   return (
     <>
-      <div>
+      <div style={{ marginTop: '85px' }}>
         <Searchbar onSubmit={handleSearchButtonSubmit} />
         <ul>
           {movies.map(movie => (
@@ -57,6 +57,7 @@ export const SearchMoviePage = () => {
               name={movie.title}
               id={movie.id}
               key={movie.id}
+              state={{ from: location }}
             />
           ))}
         </ul>
